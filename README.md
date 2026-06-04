@@ -1,328 +1,326 @@
-# \# ElevateLabs DevOps Internship — Task 4
+# ElevateLabs DevOps Internship – Task 4
 
-# 
+## Git Version Control with Branching Strategy and CI/CD
 
-# \## Git Version Control with Branching \& CI/CD
+### Project Overview
 
-# 
+This project demonstrates Git version control best practices using a Flask-based CI/CD application.
 
-# \---
+The objective of this task is to understand Git workflows used in real software development environments, including branch management, pull requests, commits, tagging, and integration with a CI/CD pipeline.
 
-# 
+---
 
-# \## Project Overview
+## Technologies Used
 
-# 
+* Git
+* GitHub
+* Python 3.11
+* Flask
+* Docker
+* Jenkins
+* Pytest
 
-# This project demonstrates Git best practices applied to a Flask-based CI/CD application.
+---
 
-# It covers branching strategy, pull requests, commit conventions, tagging, and documentation
+## Branching Strategy
 
-# as part of the ElevateLabs DevOps Internship Task 4.
+```text
+main
+ └── dev
+      └── feature/add-project-files
+```
 
-# 
+| Branch                    | Purpose                        |
+| ------------------------- | ------------------------------ |
+| main                      | Production-ready code          |
+| dev                       | Integration and testing branch |
+| feature/add-project-files | Feature development branch     |
 
-# \---
+---
 
-# 
+## Git Workflow Implemented
 
-# \## Tech Stack
+### Step 1
 
-# 
+Created repository and initialized Git.
 
-# \- Git \& GitHub
+### Step 2
 
-# \- Python 3.11
+Created development branch:
 
-# \- Flask
+```bash
+git checkout -b dev
+```
 
-# \- Docker
+### Step 3
 
-# \- Jenkins
+Created feature branch:
 
-# \- Pytest
+```bash
+git checkout -b feature/add-project-files
+```
 
-# 
+### Step 4
 
-# \---
+Added project files and committed changes.
 
-# 
+### Step 5
 
-# \## Branch Strategy
+Created Pull Request:
 
-# main
+```text
+feature/add-project-files → dev
+```
 
-# └── dev
+### Step 6
 
-# └── feature/add-project-files
+Merged development branch into main:
 
-# 
+```text
+dev → main
+```
 
-# | Branch | Purpose |
+### Step 7
 
-# |---|---|
+Created release tag:
 
-# | `main` | Production-ready code |
+```bash
+git tag -a v1.0 -m "Release v1.0"
+git push origin v1.0
+```
 
-# | `dev` | Integration branch for testing |
+---
 
-# | `feature/add-project-files` | Feature development |
+## Project Structure
 
-# 
+```text
+ElevateLabs-DevOps-Task4/
+│
+├── app.py
+├── test_app.py
+├── requirements.txt
+├── Dockerfile
+├── Jenkinsfile
+├── .gitignore
+└── README.md
+```
 
-# \---
+---
 
-# 
+## Application Endpoints
 
-# \## Git Workflow Followed
+### Home Endpoint
 
-# 
+```http
+GET /
+```
 
-# 1\. Created `dev` branch from `main`
+Response:
 
-# 2\. Created `feature/add-project-files` branch from `dev`
+```json
+{
+  "message": "Hello from Jenkins CI/CD Pipeline!",
+  "status": "running",
+  "version": "1.0.0"
+}
+```
 
-# 3\. Made all changes on feature branch with meaningful commits
+### Health Endpoint
 
-# 4\. Opened Pull Request: `feature` → `dev`
+```http
+GET /health
+```
 
-# 5\. Opened Pull Request: `dev` → `main`
+Response:
 
-# 6\. Tagged final release as `v1.0`
+```json
+{
+  "status": "healthy"
+}
+```
 
-# 
+---
 
-# \---
+## CI/CD Pipeline Workflow
 
-# 
+```text
+Developer
+    ↓
+GitHub Repository
+    ↓
+Jenkins Pipeline
+    ↓
+Build Docker Image
+    ↓
+Run Automated Tests
+    ↓
+Deploy Container
+    ↓
+Health Check
+    ↓
+Successful Deployment
+```
 
-# \## Project Structure
+---
 
-# ElevateLabs-DevOps-Task4/
+## Jenkins Pipeline Stages
 
-# ├── app.py               # Flask application
+### Checkout
 
-# ├── test\_app.py          # Pytest test cases
+Pull latest source code from GitHub.
 
-# ├── requirements.txt     # Python dependencies
+### Build
 
-# ├── Dockerfile           # Container configuration
+Build Docker image using Dockerfile.
 
-# ├── Jenkinsfile          # CI/CD pipeline definition
+### Test
 
-# ├── .gitignore           # Git ignore rules
+Run automated Pytest test cases.
 
-# └── README.md            # Project documentation
+### Deploy
 
-# 
+Deploy Docker container.
 
-# \---
+### Health Check
 
-# 
+Verify application availability using the health endpoint.
 
-# \## Application Endpoints
+---
 
-# 
+## Running the Project Locally
 
-# | Endpoint | Method | Response |
+### Install Dependencies
 
-# |---|---|---|
+```bash
+pip install -r requirements.txt
+```
 
-# | `/` | GET | `{"message": "Hello", "status": "running", "version": "1.0.0"}` |
+### Run Application
 
-# | `/health` | GET | `{"status": "healthy"}` |
+```bash
+python app.py
+```
 
-# 
+### Run Tests
 
-# \---
+```bash
+pytest test_app.py -v
+```
 
-# 
+### Build Docker Image
 
-# \## CI/CD Pipeline Stages
+```bash
+docker build -t flask-cicd-app .
+```
 
-# 
+### Run Docker Container
 
-# 1\. \*\*Checkout\*\* — Pull latest code from GitHub
+```bash
+docker run -d -p 5000:5000 --name flask-app flask-cicd-app
+```
 
-# 2\. \*\*Build\*\* — Build Docker image
+---
 
-# 3\. \*\*Test\*\* — Run Pytest inside container
+## Git Commands Used
 
-# 4\. \*\*Deploy\*\* — Start Docker container
+```bash
+git init
 
-# 5\. \*\*Health Check\*\* — Verify app is running
+git checkout -b dev
 
-# 
+git checkout -b feature/add-project-files
 
-# \---
+git add .
 
-# 
+git commit -m "Add project files"
 
-# \## How to Run Locally
+git push origin feature/add-project-files
 
-# 
+git checkout dev
 
-# \### Install dependencies
+git merge feature/add-project-files
 
-# ```bash
+git checkout main
 
-# pip install -r requirements.txt
+git merge dev
 
-# ```
+git tag -a v1.0 -m "Release v1.0"
 
-# 
+git push origin v1.0
+```
 
-# \### Run the app
+---
 
-# ```bash
+## Git Interview Questions and Answers
 
-# python app.py
+### What is Git?
 
-# ```
+Git is a distributed version control system used to track source code changes and collaborate with other developers.
 
-# 
+### What is a Pull Request?
 
-# \### Run tests
+A Pull Request is a request to merge changes from one branch into another while allowing code review and discussion.
 
-# ```bash
+### Merge vs Rebase?
 
-# pytest test\_app.py -v
+* Merge preserves branch history.
+* Rebase creates a linear commit history.
 
-# ```
+### What are Git Tags?
 
-# 
+Tags are references to specific commits, typically used to mark software releases.
 
-# \### Build Docker image
+### What is Git Stash?
 
-# ```bash
+Git Stash temporarily stores uncommitted changes so developers can switch branches safely.
 
-# docker build -t flask-cicd-app .
+### What is .gitignore?
 
-# ```
+A configuration file used to exclude files and directories from Git tracking.
 
-# 
+### How are Merge Conflicts Resolved?
 
-# \### Run Docker container
+By manually editing conflicting files, removing conflict markers, and committing the resolved changes.
 
-# ```bash
+### Why Use Branching?
 
-# docker run -d -p 5000:5000 --name flask-app flask-cicd-app
+Branching allows independent development without affecting stable production code.
 
-# ```
+---
 
-# 
+## Release Information
 
-# \---
+### Version 1.0
 
-# 
+Initial release containing:
 
-# \## Git Commands Used
+* Flask application
+* Docker containerization
+* Jenkins CI/CD pipeline
+* Automated testing
+* Git branching workflow
 
-# 
+---
 
-# ```bash
+## Learning Outcomes
 
-# git init
+Through this project, I learned:
 
-# git checkout -b dev
+* Git branching strategies
+* Feature branch workflow
+* Pull Requests and code reviews
+* Merge and release management
+* Git tagging
+* Version control best practices
+* CI/CD integration with Git
+* Collaborative development workflows
 
-# git checkout -b feature/add-project-files
+---
 
-# git add <file>
+## Author
 
-# git commit -m "message"
+**Ashish Vijaybhai Shakoriya**
 
-# git push origin <branch>
+DevOps Internship – Elevate Labs
 
-# git tag -a v1.0 -m "Release v1.0"
-
-# git push origin v1.0
-
-# git merge
-
-# ```
-
-# 
-
-# \---
-
-# 
-
-# \## Git Interview Q\&A
-
-# 
-
-# \*\*1. What is Git?\*\*
-
-# Distributed version control system for tracking code changes across a team.
-
-# 
-
-# \*\*2. Merge vs Rebase?\*\*
-
-# Merge preserves full history with a merge commit. Rebase rewrites history linearly onto the target branch.
-
-# 
-
-# \*\*3. What is a Pull Request?\*\*
-
-# A request to merge one branch into another, allowing code review before merging.
-
-# 
-
-# \*\*4. How to resolve merge conflicts?\*\*
-
-# Edit the conflicting file manually, remove conflict markers, then `git add` and `git commit`.
-
-# 
-
-# \*\*5. What are Git tags?\*\*
-
-# Immutable markers on specific commits used to label release versions like `v1.0`.
-
-# 
-
-# \*\*6. What is Git workflow?\*\*
-
-# A branching strategy — typically `feature → dev → main` via pull requests.
-
-# 
-
-# \*\*7. What is git stash?\*\*
-
-# Temporarily saves uncommitted changes so you can switch branches without losing work.
-
-# 
-
-# \*\*8. What is .gitignore?\*\*
-
-# A file that tells Git which files and folders to not track (e.g. `\_\_pycache\_\_`, `.env`).
-
-# 
-
-# \---
-
-# 
-
-# \## Release
-
-# 
-
-# \- \*\*v1.0\*\* — Initial release with Flask app, Docker, and Jenkins pipeline
-
-# 
-
-# \---
-
-# 
-
-# \## Author
-
-# 
-
-# \*\*Ashish Vijaybhai Shakoriya\*\*
-
-# DevOps Internship — ElevateLabs
-
-# Task 4: Git Version Control Best Practices
-
+Task 4: Git Version Control with Branching and CI/CD
